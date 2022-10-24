@@ -16,25 +16,25 @@ const Hordecall = () => {
   
     <NavigationContainer>
       <Stack.Navigator >
-        <Stack.Screen  options={{
+        {/* <Stack.Screen  options={{
           headerStyle: {
             backgroundColor: '#d3d3d3',
           } }} 
           name="Login" 
-          component={SignInScreen} /> 
+          component={SignInScreen} />  */}
         
         <Stack.Screen options={{
           headerStyle: {
-            backgroundColor: '#d3d3d3',
+            backgroundColor: '#dc143c',
           } }} 
-          name="Dashboard" 
+          name="User Home" 
           component={HomeTabs} />
-        <Stack.Screen options={{
+        {/* <Stack.Screen options={{
           headerStyle: {
             backgroundColor: '#d3d3d3',
           } }} 
           name="Register" 
-          component={RegisterScreen} />
+          component={RegisterScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
