@@ -5,7 +5,7 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { Button } from "@rneui/themed";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
     const { height } = useWindowDimensions();
   
   const [fullname, setFullname] = useState('');
@@ -61,7 +61,7 @@ const RegisterScreen = () => {
       <View style={styles.SiginRegisterButtonView}>
         <Text style={styles.SigInText}> Already have an account? </Text>
         <TouchableOpacity>
-          <Button style={styles.SigupRegisterButtonView} size="sm" type="clear">
+          <Button onPress={() => navigation.navigate('Login')} style={styles.SigupRegisterButtonView} size="sm" type="clear">
             Sign in
           </Button> 
         </TouchableOpacity>

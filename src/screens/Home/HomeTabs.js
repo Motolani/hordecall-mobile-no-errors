@@ -19,7 +19,7 @@ const HomeTabs = ({}) => {
         options={{
           tabBarLabel:'Home',      
           tabBarIcon: ({focused, color, size}) => (
-            <Icon name="home-outline" size={30} color="#dc143c" />
+            <Icon name="home-outline" size={30} color="#ff0000" />
           ),
         }}/>
       <Tab.Screen 
@@ -28,7 +28,7 @@ const HomeTabs = ({}) => {
         options={{
           tabBarLabel:'Transactions',      
           tabBarIcon: ({focused, color, size}) => (
-            <Icon name="receipt-outline" size={30} color="#dc143c" />
+            <Icon name="receipt-outline" size={30} color="#ff0000" />
           ),
         }}/>
       <Tab.Screen 
@@ -37,7 +37,7 @@ const HomeTabs = ({}) => {
         options={{
           tabBarLabel:'Schedules',      
           tabBarIcon: ({focused, color, size}) => (
-            <Icon name="today-outline" size={30} color="#dc143c" />
+            <Icon name="today-outline" size={30} color="#ff0000" />
           ),
         }}/>
       <Tab.Screen 
@@ -46,7 +46,7 @@ const HomeTabs = ({}) => {
         options={{
           tabBarLabel:'Settings',      
           tabBarIcon: ({focused, color, size}) => (
-            <Icon name="settings-outline" size={30} color="#dc143c" />
+            <Icon name="settings-outline" size={30} color="#ff0000" />
           ),
         }}/>
     </Tab.Navigator>

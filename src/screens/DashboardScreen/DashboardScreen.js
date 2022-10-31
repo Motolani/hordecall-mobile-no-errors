@@ -1,11 +1,28 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { Alert, View, Text, SafeAreaView } from 'react-native';
+import React from 'react';
+import HeaderTop from '../../components/HeaderTop';
+import GridBox from '../../components/GridBox';
 
-const DashboardScreen = () => {
+const DashboardScreen = ( {navigation} ) => {
+  const ErrorAlert = () => {
+      Alert.alert(  
+        '404',  
+        'Bills Payment Coming Soon!',  
+        [  
+            {text: 'OK', onPress: () => console.log('OK Pressed')},  
+        ]  
+    );  
+  }  
   return (
-    <View>
-      <Text>DashboardScreen</Text>
-    </View>
+    <SafeAreaView>
+      <HeaderTop />
+      <GridBox 
+          onPress1={() => navigation.navigate("SmsScreen")} 
+          onPress2={() => navigation.navigate("VoiceScreen")} 
+          onPress3={() => navigation.navigate("TextToSpeachScreen")} 
+          onPress4={ErrorAlert} 
+          />
+    </SafeAreaView>
   )
 }
 

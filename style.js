@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         alignItems: "center",
+        // backgroundColor: "#dc143c",
         backgroundColor: "#dc143c",
     },
     
@@ -22,7 +23,12 @@ const styles = StyleSheet.create({
     },
     Nav:{
         backgroundColor: "#dc143c",
-    }
+    },
+    ActIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
 
 export default styles;

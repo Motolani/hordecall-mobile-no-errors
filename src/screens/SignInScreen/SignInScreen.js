@@ -1,18 +1,29 @@
-import { View, Text, Image, useWindowDimensions, StyleSheet, TouchableOpacity} from 'react-native'
-import React, {useState}  from 'react'
+import { View, Text, Image, useWindowDimensions, StyleSheet, TouchableOpacity, Alert} from 'react-native'
+import React, {useContext, useState}  from 'react'
 import Logo from '../../../assets/images/img.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { Button } from "@rneui/themed";
+import { AuthContext } from '../../context/AuthContext';
 
-const SignInScreen = () => {
+const SignInScreen = ({navigation}) => {
   const { height } = useWindowDimensions();
   
-  const [phonenumber, setPhonenumber] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const onSignInPressed = () => {
     console.warn("Sign in");
+  };
+  
+  
+  const { login, errorMessage } = useContext(AuthContext);
+  
+  const onSubmit = async() => {
+    await login(email, password); 
+    console.log(email, password);
+    
   }
+  
   
   return (
     <View style={styles.container}>
@@ -21,12 +32,16 @@ const SignInScreen = () => {
           style={[styles.logo, {height: height * 0.3}]} 
           resizeMode="contain" 
         />
+        
+        {errorMessage && <Text style={styles.failedMessage}>{errorMessage}</Text>}
+        
         <CustomInput 
-        placeholder="Phone Number" 
-        value={phonenumber} 
-        setValue={setPhonenumber} 
-        keyboardType={'numeric'}
-        maxLength={11} />
+        placeholder="email" 
+        value={email} 
+        setValue={setemail} 
+        // keyboardType={'numeric'}
+        // maxLength={11} 
+        />
         
       <CustomInput 
         placeholder="Password" 
@@ -35,8 +50,8 @@ const SignInScreen = () => {
         secureTextEntry={true} />
         
       <CustomButton 
-        text="Sign In" 
-        onPress={onSignInPressed} 
+        text="Login" 
+        onPress={onSubmit} 
         type="PRIMARY" />
       
       <Button size="sm" type="clear" style={styles.pwdForgot} >
@@ -46,7 +61,7 @@ const SignInScreen = () => {
       <View style={styles.SiginRegisterButtonView}>
         <Text style={styles.SignUpText}> Don't have an Account? </Text>
         <TouchableOpacity>
-          <Button  style={styles.SigupRegisterButtonView} size="sm" type="clear">
+          <Button onPress={() => navigation.navigate('Register')} style={styles.SigupRegisterButtonView} size="sm" type="clear">
             Sign up
           </Button> 
         </TouchableOpacity>
@@ -82,9 +97,14 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     backgroundColor: "#ff0000",
-},
-SignUpText:{
-  color:'#f8f8ff',
-}
+  },
+  SignUpText:{
+    color:'#f8f8ff',
+  },
+  failedMessage:{
+    fontSize: 20,
+    color: '#ffffff',
+    fontWeight: 'bold',
+  }
 })
 export default SignInScreen
