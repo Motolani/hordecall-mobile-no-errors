@@ -2,9 +2,10 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React from 'react'
 // import styles from '../../../style';
 
-const CustomInput = ({value, setValue, placeholder, secureTextEntry, keyboardType, maxLength}) => {
+const InputWithText = ({value, setValue, placeholder, secureTextEntry, keyboardType, maxLength, label}) => {
   return (
     <View>
+        <Text style={styles.Label}>{label}</Text>
         <TextInput 
           value={value}
           onChangeText= {setValue}
@@ -30,6 +31,11 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingLeft: 25,
 },
+Label:{
+    color: 'rgb(0, 122, 255)',
+    fontWeight: 'bold',
+    marginLeft: 20
+}
 });
-export default CustomInput
+export default InputWithText
 

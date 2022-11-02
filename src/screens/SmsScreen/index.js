@@ -1,1 +1,1 @@
-export { default } from './SmsScreen';
+export { default } from './SmsScreenTabs';

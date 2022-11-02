@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 
-const CustomButton = ({ onPress, text, type }) => {
+const CustomButton = ({ onPress, text, type, textColor }) => {
   return (
     <Pressable onPress={onPress} style={[styles.container, styles[`container_${type}`]]}>
-      <Text style={styles.text}>{ text }</Text>
+      <Text style={[styles.text, styles[`text_${textColor}`]]}>{ text }</Text>
     </Pressable>
   )
 }
@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
     },
     container_DEFAULT: {
       backgroundColor:"#fffaf0",
+    },
+    container_Hordecall: {
+      backgroundColor:"#ff0000",
+    },
+    text_Hordecall:{
+      color: "#ffffff",
     }
 })
 export default CustomButton
