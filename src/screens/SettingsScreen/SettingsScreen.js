@@ -3,7 +3,7 @@ import React, {useContext} from 'react'
 import CustomButton from '../../components/CustomButton';
 import { AuthContext } from '../../context/AuthContext';
 
-const SettingsScreen = () => {
+const SettingsScreen = ({navigation}) => {
   const { logout } = useContext(AuthContext);
 
   return (
@@ -14,6 +14,10 @@ const SettingsScreen = () => {
         onPress={() => {logout()}} 
         type="PRIMARY" />
         
+        <CustomButton 
+        text="Record Voice" 
+        onPress={() => navigation.navigate("RecordVoice")} 
+        type="PRIMARY" />
     </View>
   );
 };

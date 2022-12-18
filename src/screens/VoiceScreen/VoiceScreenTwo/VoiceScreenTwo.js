@@ -1,26 +1,34 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, StatusBar, TextInput, Alert } from 'react-native';
-import React, { useState, useContext, useEffect} from 'react';
+import { View, Text, StyleSheet, ScrollView, StatusBar, TextInput, Alert, Button } from 'react-native';
+import React, { useState, useContext, useEffect, useCallback} from 'react';
 import SmsHeader from '../../../components/SmsHeader';
 import InputWithText from '../../../components/InputWithText';
 import CustomButton from '../../../components/CustomButton';
-import InputWithTextarea from '../../../components/InputWithTextarea';
+// import InputWithTextarea from '../../../components/InputWithTextarea';
 import { AuthContext } from '../../../context/AuthContext';
+import { SelectList } from 'react-native-dropdown-select-list';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import * as DocumentPicker from 'react-native-document-picker';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
-const SmsScreenOne = () => {
+const VoiceScreenTwo = () => {
     const [senderid, setsenderid] = useState('');
     const [description, setDescription] = useState('');
     const [schedule, setSchedule] = useState('');
-    const [msisdn, setMsisdn] = useState('');
-    const [message, setMessage] = useState('');
-    const [msgid, setmsgid] = useState('');
+    // const [msisdn, setMsisdn] = useState('');
+    const [playLength, setPlayLength] = useState(0);
+    const [maxRetries, setMaxRetries] = useState(0);
+    const [retryTime, setRetryTime] = useState(0);
+    const [numbers, setNumbers] = useState('');
+    const [enableSms, setEnableSms] = useState(0);
     const [responseMessage, setResponseMessage] = useState(null);
     const [responseStatus, setResponseStatus] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [insufficientMessage, setInsufficientMessage] = useState(null);
-    
+    const [fileResponse, setFileResponse] = useState([]);
     const { logout, userToken } = useContext(AuthContext);
+    const [elementVisible, setElementVisible] = useState(false);
  
     const AlertFunc = (message, status) => {
         if(status === '200'){
@@ -120,7 +128,48 @@ const SmsScreenOne = () => {
         setIsLoading(false)
     }
     
+    const handleDocumentSelection = async () => {
+            // console.log('gotten here')
+        try {
+        // console.log('now here')
+            // const response = await DocumentPicker.pick({
+            //     type: [DocumentPicker.types.allFiles],
+            //     presentationStyle: 'fullScreen',
+            // });
+            // // console.log('here')
+            // // setFileResponse(response);
+            // // console.log(response);
+            // for (i in response){
+            //     console.log(i.uri, i.name, i.size, i.type)
+            // }
+            const res = await DocumentPicker.pickSingle({
+                type: [DocumentPicker.types.allFiles]
+            })
+            console.log(res)
+        } catch (err) {
+        // console.log('now here')
+            console.warn(err);
+        }
+    }
     
+    const max_retries = [
+        { value: '1' },
+        { value: '2' },
+        { value: '3' },
+    ];
+    
+    const retry_time = [
+        { value: '1' },
+        { value: '2' },
+        { value: '3' },
+    ];
+    
+    const play_length = [
+        { value: '30' },
+        { value: '40' },
+        { value: '50' },
+        { value: '60' },
+    ];
     
     return (
         <ScrollView >       
@@ -130,7 +179,7 @@ const SmsScreenOne = () => {
             
             
             <View style={styles.Heading}>
-                <Text style={styles.HeadingText}> pload numbers from your contact list</Text>
+                <Text style={styles.HeadingText}> Seperate each number with a comma(,)</Text>
             </View>
             <View  style={styles.container}>
                 
@@ -151,43 +200,74 @@ const SmsScreenOne = () => {
                 </View>
                 
                 {/* <View style={styles.Input}>
-                    <InputWithText 
-                    placeholder="Schedule Time to be sent" 
-                    value={schedule} 
-                    setValue={setSchedule} 
-                    label={'Time Schedule'} />
+                    <CheckBoxWithText
+                        value={schedule} 
+                        setValue={setSchedule} 
+                        label={'Time Schedule'} />
                 </View> */}
                 
                 <View style={styles.Input}>
                     <InputWithText 
                     placeholder="Seperate each number with a comma" 
-                    value={msisdn} 
-                    setValue={setMsisdn} 
-                    // keyboardType={'numeric'}
-                    // maxLength={13} 
+                    value={numbers} 
+                    setValue={setNumbers} 
                     label={'Enter Numbers'} />
                 </View>
                 
-                <View style={styles.Input}>
-                    <InputWithText 
-                    placeholder="Enter Message Id"
-                    value={msgid} 
-                    setValue={setmsgid} 
-                    label={'Message Id'} 
-                    maxLength={100}/>
+                <View style={styles.dropdown}>
+                    <Text style={styles.Label}>Select Play Length</Text>
+                    <SelectList
+                        // labeltext={'Select list'}
+                        label={'play length'}
+                        data={play_length}
+                        save={'value'}
+                        setSelected={(val) => setSelected(val)} 
+                    />
+                </View>
+                
+                <View style={styles.dropdown}>
+                    <Text style={styles.Label}>Select Max Retries</Text>
+                    <SelectList
+                        // labeltext={'Select list'}
+                        label={'max retries'}
+                        data={max_retries}
+                        save={'value'}
+                        textlabel={'Select List'}
+                        setSelected={(val) => setSelected(val)} 
+                    />
+                </View>
+                
+                <View style={styles.dropdown}>
+                    <Text style={styles.Label}>Select Retry Time</Text>
+                    <SelectList
+                        // labeltext={'Select list'}
+                        label={'retry time'}
+                        data={retry_time}
+                        save={'value'}
+                        textlabel={'Select List'}
+                        setSelected={(val) => setSelected(val)} 
+                    />
                 </View>
                 
                 <View style={styles.Input}>
-                    <InputWithTextarea 
-                    placeholder="Message to be sent"
-                    multiline={true}
-                    numberOfLines={10}
-                    value={message} 
-                    setValue={setMessage}
-                    label={'Message'} 
+                <BouncyCheckbox
+                    size={25}
+                    fillColor="red"
+                    unfillColor="#FFFFFF"
+                    text="Select From File"
+                    iconStyle={{ borderColor: "red" }}
+                    innerIconStyle={{ borderWidth: 2 }}
+                    // textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                    onPress={(isChecked) => {
+                        setElementVisible(!elementVisible)
+                    }}
                     />
-                    
                 </View>
+                
+                {elementVisible ? (<View style={styles.Input}>
+                    <Button title="Select 📑" onPress={handleDocumentSelection}/>
+                </View>) : null}
+                
                 <CustomButton 
                 text="Send SMS" 
                 onPress={handleSubmit} 
@@ -212,7 +292,10 @@ const styles = StyleSheet.create({
     scroll:{
         flexGrow: 1,
     },
-    
+    dropdown:{
+        paddingTop: 20,
+        width: 325,
+    },
     Heading:{
         alignItems: 'center',
         marginTop: 20,
@@ -232,10 +315,17 @@ const styles = StyleSheet.create({
         color: '#ff0000',
         fontWeight: 'bold',
     },
+    Label:{
+        color: 'rgb(0, 122, 255)',
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginBottom:10,
+        alignItems: 'flex-start',
+    },
     viewMessage: {
         marginTop: 20,
         alignItems: 'center',
     }
 })
 
-export default SmsScreenOne
+export default VoiceScreenTwo

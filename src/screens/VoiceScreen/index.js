@@ -1,1 +1,1 @@
-export { default } from './VoiceScreen';
+export { default } from './VoiceScreenTabs';

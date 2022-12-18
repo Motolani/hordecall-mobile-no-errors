@@ -11,6 +11,10 @@ import { AuthContext, AuthProvider, useGlobalContext } from './src/context/AuthC
 import SmsScreen from './src/screens/SmsScreen';
 import VoiceScreen from './src/screens/VoiceScreen';
 import TextToSpeachScreen from './src/screens/TextToSpeachScreen';
+import VoiceTransaction from './src/screens/VoiceTransaction';
+import SmsTransaction from './src/screens/SmsTransaction';
+import WalletTransaction from './src/screens/WalletTransaction';
+import VoiceRecording from './src/screens/VoiceRecording';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,6 +42,14 @@ const Hordecall = () => {
         <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="VoiceScreen" component={VoiceScreen} />
         
         <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="TextToSpeachScreen" component={TextToSpeachScreen} />
+        
+        <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="VoiceTransaction" component={VoiceTransaction} />
+        
+        <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="SmsTransaction" component={SmsTransaction} />
+        
+        <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="WalletTransaction" component={WalletTransaction} />
+        
+        <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="RecordVoice" component={VoiceRecording} />
       </Stack.Navigator>
       
     </NavigationContainer>

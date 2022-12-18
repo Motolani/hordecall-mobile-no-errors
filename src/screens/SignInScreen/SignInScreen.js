@@ -11,10 +11,6 @@ const SignInScreen = ({navigation}) => {
   
   const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
-  const onSignInPressed = () => {
-    console.warn("Sign in");
-  };
-  
   
   const { login, errorMessage } = useContext(AuthContext);
   

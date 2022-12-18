@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const VoiceScreen = () => {
+const WalletTransaction = () => {
   return (
     <View>
-      <Text>VoiceScreen</Text>
+      <Text>WalletTransaction</Text>
     </View>
   )
 }
 
-export default VoiceScreen
+export default WalletTransaction

@@ -2,7 +2,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React from 'react'
 // import styles from '../../../style';
 
-const InputWithText = ({value, setValue, placeholder, secureTextEntry, keyboardType, maxLength, label }) => {
+const InputWithTextarea = ({value, setValue, placeholder, secureTextEntry, keyboardType, maxLength, label, multiline, numberOfLines}) => {
   return (
     <View>
         <Text style={styles.Label}>{label}</Text>
@@ -10,11 +10,12 @@ const InputWithText = ({value, setValue, placeholder, secureTextEntry, keyboardT
           value={value}
           onChangeText= {setValue}
           placeholder={placeholder}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
           style={styles.customInput}
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
           maxLength={maxLength}
-          
           />
     </View>
   )
@@ -31,6 +32,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 15,
     paddingLeft: 25,
+    height:200, 
+    textAlignVertical: 'top',
 },
 Label:{
     color: 'rgb(0, 122, 255)',
@@ -38,5 +41,5 @@ Label:{
     marginLeft: 20
 }
 });
-export default InputWithText
+export default InputWithTextarea
 

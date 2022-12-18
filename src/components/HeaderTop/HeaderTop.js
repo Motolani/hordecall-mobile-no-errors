@@ -4,12 +4,18 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import Icon from 'react-native-vector-icons/Ionicons';
 import Logo from '../../../assets/images/img.png';
 import { AuthContext} from '../../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const HeaderTop = () => {
-    const { userInfo } = useContext(AuthContext);
-    
+    const { userInfo, userBalance, WalletBal} = useContext(AuthContext);
     const { height } = useWindowDimensions();
+    
+    const onSubmit = async() => {
+        await WalletBal(); 
+      }
+    console.log('balance: ' +userBalance);
+    
     return (
         <View style={styles.header}>
             <View style={styles.row}>
@@ -26,20 +32,24 @@ const HeaderTop = () => {
                     
             </View>
             <View style={styles.BalanceContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onSubmit}>
                     <Icon name="eye" styles={styles.eyeCon} size={28} color="#ffffff" />
                 </TouchableOpacity>
                 
                 <View style={styles.eyeConContainer}>
                         <Icon name="wallet-outline" styles={styles.wallet} size={25} color="#ffffff" />
-                    <Text style={styles.headerBalance}>: N9000</Text>
+                    <Text style={styles.headerBalance}> : N {userBalance}</Text>
                 </View>    
                 
             </View>
             
-            <View >
+            <View style={styles.Fund} >
                 <TouchableOpacity >
+                <Text style={styles.fundWalletText}> 
                     <Icon name="md-card" style={styles.fundWallet}  size={28} color="#ffffff" />
+                    {/* Fund Wallet */}
+                </Text>
+                    
                 </TouchableOpacity>
             </View>
             
@@ -71,7 +81,7 @@ const styles = StyleSheet.create({
     BalanceContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        paddingLeft: 205,
+        paddingLeft: 180,
         marginTop: -30,
     },
     headerTitle: {
@@ -80,7 +90,6 @@ const styles = StyleSheet.create({
     },
     Logo:{
         marginTop: -25,
-        // marginBottom: 5,
         marginLeft: -90,
     },
     userInfo:{
@@ -88,7 +97,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: hp('2.2'),
         paddingTop: 15,
-        marginLeft: -10,
+        marginLeft: -30,
     },
     userIcon: {
        
@@ -107,9 +116,20 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     }, 
     fundWallet:{
-        paddingLeft:275,
+        paddingRight:25,
+        marginRight:25,
+    },
+    fundWalletText: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        fontSize: hp('2.0'),
+        // marginLeft:15,
+    },
+    Fund: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingLeft: 180,
         paddingTop:25
     },
-    
 });
 export default HeaderTop
