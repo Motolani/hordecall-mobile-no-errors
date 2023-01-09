@@ -1,5 +1,7 @@
 import {  View, Text, StyleSheet, ScrollView, StatusBar, TextInput, Alert, Button, SafeAreaView } from 'react-native'
-import React, { useState, useContext }  from 'react'
+import React, { useState, useContext, useEffect }  from 'react'
+import CustomButton from '../../../components/CustomButton';
+
 import AudioRecorderPlayer, {
     AVEncoderAudioQualityIOSType,
     AVEncodingOption,
@@ -7,10 +9,12 @@ import AudioRecorderPlayer, {
     AudioSet,
     AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
-import CustomButton from '../../../components/CustomButton';
+
+
+
 
 const Record = () => {
-    const [isLoggingIn, setIsLoggingIn] = useState(false);
+        
     const [recordSecs, setRecordSecs] = useState(0);
     const [recordTime, setRecordTime] = useState('00:00:00');
     const [currentPositionSec, setCurrentPositionSec] = useState(0);
@@ -18,31 +22,43 @@ const Record = () => {
     const [playTime, setPlayTime] = useState('00:00:00');
     const [duration, setDuration] = useState('00:00:00');
     
-    let audioRecorderPlayer = new AudioRecorderPlayer();
+    const audioRecorderPlayer = new AudioRecorderPlayer();
     audioRecorderPlayer.setSubscriptionDuration(0.09);
-    
+        
     onStartRecord = async () => {
     
         const path = 'hello.m4a';
         const audioSet = {
-          AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-          AudioSourceAndroid: AudioSourceAndroidType.MIC,
-          AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-          AVNumberOfChannelsKeyIOS: 2,
-          AVFormatIDKeyIOS: AVEncodingOption.aac,
+            AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+            AudioSourceAndroid: AudioSourceAndroidType.MIC,
+            AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+            AVNumberOfChannelsKeyIOS: 2,
+            AVFormatIDKeyIOS: AVEncodingOption.aac,
         };
         console.log('audioSet', audioSet);
-        const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
+        console.log('path', path);
+        
+        const meteringEnabled = false;
+
+        let uri;
+        
+        try {
+            uri = await audioRecorderPlayer.startRecorder(path, meteringEnabled, audioSet);
+        } catch (e) { console.log("ERR audioRecorderPlayer.startRecorder: ", e) }
         
         audioRecorderPlayer.addRecordBackListener((e) => {
-            setRecordSecs(e.currentPosition),
-            setRecordTime(audioRecorderPlayer.mmssss(
+            let recordSecs = e.currentPosition;
+            let recordTime = audioRecorderPlayer.mmssss(
                 Math.floor(e.currentPosition),
-            ))
+            );
+            setRecordSecs(recordSecs),
+            setRecordTime(recordTime)
         });
-        
+        console.log('recordSecs:' + recordSecs);
+        console.log('recordTime:' + recordTime);
         console.log(`uri: ${uri}`);
     };
+    
     
     onStopRecord = async () => {
         const result = await audioRecorderPlayer.stopRecorder();
@@ -81,10 +97,11 @@ const Record = () => {
         audioRecorderPlayer.removePlayBackListener();
     };
     
+    
     return (
         <SafeAreaView style={styles.MainContainer}>
             <View style={styles.dropdown}>
-                <Text>InstaPlayer</Text>
+                <Text>HORDECALL</Text>
             </View>
             <View style={styles.dropdown}>  
                 <Text>{recordTime}</Text>
@@ -93,7 +110,7 @@ const Record = () => {
             <View style={styles.dropdown}> 
                 <CustomButton 
                     text="RECORD" 
-                    onPress={onStartRecord()} 
+                    onPress={() => onStartRecord()} 
                     type="Hordecall"
                     textColor="Hordecall"/>
             </View>
@@ -101,7 +118,7 @@ const Record = () => {
             <View style={styles.dropdown}> 
                 <CustomButton 
                     text="STOP" 
-                    onPress={onStopRecord()} 
+                    onPress={() => onStopRecord()} 
                     type="Hordecall"
                     textColor="Hordecall"/>
             </View>
@@ -113,7 +130,7 @@ const Record = () => {
             <View style={styles.dropdown}> 
                 <CustomButton 
                     text="PLAY" 
-                    onPress={onStartPlay()} 
+                    onPress={() => onStartPlay()} 
                     type="Hordecall"
                     textColor="Hordecall"/>
             </View>
@@ -121,7 +138,7 @@ const Record = () => {
             <View style={styles.dropdown}> 
                 <CustomButton 
                     text="PAUSE" 
-                    onPress={onPausePlay()} 
+                    onPress={() => onPausePlay()} 
                     type="Hordecall"
                     textColor="Hordecall"/>
             </View>
@@ -129,7 +146,7 @@ const Record = () => {
             <View style={styles.dropdown}> 
                 <CustomButton 
                 text="STOP" 
-                onPress={onStopPlay()} 
+                onPress={() => onStopPlay()} 
                 type="Hordecall"
                 textColor="Hordecall"/>
             </View>

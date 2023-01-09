@@ -4,7 +4,6 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import Icon from 'react-native-vector-icons/Ionicons';
 import Logo from '../../../assets/images/img.png';
 import { AuthContext} from '../../context/AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const HeaderTop = () => {

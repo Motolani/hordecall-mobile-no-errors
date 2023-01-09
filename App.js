@@ -10,11 +10,12 @@ import styles from './style';
 import { AuthContext, AuthProvider, useGlobalContext } from './src/context/AuthContext';
 import SmsScreen from './src/screens/SmsScreen';
 import VoiceScreen from './src/screens/VoiceScreen';
-import TextToSpeachScreen from './src/screens/TextToSpeachScreen';
 import VoiceTransaction from './src/screens/VoiceTransaction';
 import SmsTransaction from './src/screens/SmsTransaction';
 import WalletTransaction from './src/screens/WalletTransaction';
 import VoiceRecording from './src/screens/VoiceRecording';
+import TextToSpeechScreen from './src/screens/TextToSpeechScreen/TextToSpeechScreen';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,7 +42,7 @@ const Hordecall = () => {
         
         <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="VoiceScreen" component={VoiceScreen} />
         
-        <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="TextToSpeachScreen" component={TextToSpeachScreen} />
+        <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="TextToSpeechScreen" component={TextToSpeechScreen} />
         
         <Stack.Screen options={{ headerStyle: { backgroundColor: '#d3d3d3', } }} name="VoiceTransaction" component={VoiceTransaction} />
         

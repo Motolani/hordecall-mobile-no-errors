@@ -14,6 +14,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-Hordecall-HordecallTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Hordecall-HordecallTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A72579672951E26700CABBA8 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = A72579662951E26600CABBA8 /* ios */; };
+		A725796A2951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72579692951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift */; };
 		A735E60E2902CEF800C87B8E /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = A735E60D2902CEF700C87B8E /* fonts */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,9 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-Hordecall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hordecall.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Hordecall/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Hordecall-HordecallTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hordecall-HordecallTests.release.xcconfig"; path = "Target Support Files/Pods-Hordecall-HordecallTests/Pods-Hordecall-HordecallTests.release.xcconfig"; sourceTree = "<group>"; };
+		A72579662951E26600CABBA8 /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; sourceTree = "<group>"; };
+		A72579682951E43C00CABBA8 /* Hordecall-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hordecall-Bridging-Header.h"; sourceTree = "<group>"; };
+		A72579692951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libRNAudioRecorderPlayer.a.swift; sourceTree = "<group>"; };
 		A735E60D2902CEF700C87B8E /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -111,6 +116,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A72579662951E26600CABBA8 /* ios */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -118,6 +124,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A72579692951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift */,
 				A735E60D2902CEF700C87B8E /* fonts */,
 				13B07FAE1A68108700A75B9A /* Hordecall */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -125,6 +132,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				A72579682951E43C00CABBA8 /* Hordecall-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -210,7 +218,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1410;
 					};
 				};
 			};
@@ -247,6 +255,7 @@
 			files = (
 				A735E60E2902CEF800C87B8E /* fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				A72579672951E26700CABBA8 /* ios in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,6 +425,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A725796A2951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -436,6 +446,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-Hordecall-HordecallTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -463,6 +474,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-Hordecall-HordecallTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = HordecallTests/Info.plist;
@@ -503,6 +515,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hordecall;
+				SWIFT_OBJC_BRIDGING_HEADER = "Hordecall-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -528,6 +541,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Hordecall;
+				SWIFT_OBJC_BRIDGING_HEADER = "Hordecall-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

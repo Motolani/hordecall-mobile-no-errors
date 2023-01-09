@@ -11,7 +11,7 @@ const CheckBoxWithText = ({label, onChange, disabled, testID, value, onValueChan
         disabled={disabled}
         testID={testID}
         value={value}
-        onValueChange={onValueChange}
+        onValueChange={(newValue) => setToggleCheckBox(newValue)}
         style={styles.customInput}
       />
   </View>

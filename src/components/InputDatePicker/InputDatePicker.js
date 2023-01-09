@@ -1,12 +1,13 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React from 'react'
 // import styles from '../../../style';
+import TimePicker from 'react-time-picker';
 
 const InputWithText = ({value, setValue, placeholder, secureTextEntry, keyboardType, maxLength, label}) => {
   return (
     <View>
         <Text style={styles.Label}>{label}</Text>
-        <TextInput 
+        <TimePicker 
           value={value}
           onChangeText= {setValue}
           placeholder={placeholder}

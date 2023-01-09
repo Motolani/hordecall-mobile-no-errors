@@ -8,7 +8,8 @@ import { AuthContext } from '../../../context/AuthContext';
 import { SelectList } from 'react-native-dropdown-select-list';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-// import CheckBoxWithText from '../../../components/CheckBoxWithText';
+import * as DocumentPicker from 'react-native-document-picker';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 const VoiceScreenThree = () => {
     const [senderid, setsenderid] = useState('');
@@ -27,7 +28,8 @@ const VoiceScreenThree = () => {
     const [insufficientMessage, setInsufficientMessage] = useState(null);
     const [dropdownElement, setDropdownElement] = useState([]);
     const { logout, userToken } = useContext(AuthContext);
- 
+    const [elementVisible, setElementVisible] = useState(false);
+    
     const AlertFunc = (message, status) => {
         if(status === '200'){
             Alert.alert(  
@@ -175,6 +177,29 @@ const VoiceScreenThree = () => {
         { value: '60' },
     ];
     
+    const handleDocumentSelection = async () => {
+        // console.log('gotten here')
+    try {
+    // console.log('now here')
+        // const response = await DocumentPicker.pick({
+        //     type: [DocumentPicker.types.allFiles],
+        //     presentationStyle: 'fullScreen',
+        // });
+        // // console.log('here')
+        // // setFileResponse(response);
+        // // console.log(response);
+        // for (i in response){
+        //     console.log(i.uri, i.name, i.size, i.type)
+        // }
+        const res = await DocumentPicker.pickSingle({
+            type: [DocumentPicker.types.allFiles]
+        })
+        console.log(res)
+    } catch (err) {
+    // console.log('now here')
+        console.warn(err);
+    }
+}
     useEffect(() => {
         dropdownData();
     }, []);
@@ -261,15 +286,27 @@ const VoiceScreenThree = () => {
                     />
                 </View>
                 
-                {/* <View style={styles.Input}>
-                    <CheckBoxWithText
-                        value={schedule} 
-                        setValue={setSchedule} 
-                        label={'Enable Sms'} 
-                        />
-                </View> */}
+                <View style={styles.Input}>
+                <BouncyCheckbox
+                    size={25}
+                    fillColor="red"
+                    unfillColor="#FFFFFF"
+                    text="Select From File"
+                    iconStyle={{ borderColor: "red" }}
+                    innerIconStyle={{ borderWidth: 2 }}
+                    // textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                    onPress={(isChecked) => {
+                        setElementVisible(!elementVisible)
+                    }}
+                    />
+                </View>
+                
+                {elementVisible ? (<View style={styles.Input}>
+                    <Button title="Select 📑" onPress={handleDocumentSelection}/>
+                </View>) : null}
+                
                 <CustomButton 
-                text="Send SMS" 
+                text="Send Voice Call" 
                 onPress={handleSubmit} 
                 type="Hordecall"
                 textColor="Hordecall"/>

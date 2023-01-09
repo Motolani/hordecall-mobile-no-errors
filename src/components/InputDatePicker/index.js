@@ -1,1 +1,1 @@
-export { default } from "./InputWithText";
+export { default } from "./InputDatePicker";

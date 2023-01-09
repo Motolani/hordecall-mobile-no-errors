@@ -19,7 +19,7 @@ const DashboardScreen = ( {navigation} ) => {
       <GridBox 
           onPress1={() => navigation.navigate("SmsScreen")} 
           onPress2={() => navigation.navigate("VoiceScreen")} 
-          onPress3={() => navigation.navigate("TextToSpeachScreen")} 
+          onPress3={() => navigation.navigate("TextToSpeechScreen")} 
           onPress4={ErrorAlert} 
           />
     </SafeAreaView>

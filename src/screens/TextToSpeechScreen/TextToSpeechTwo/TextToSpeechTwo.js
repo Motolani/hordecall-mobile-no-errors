@@ -5,20 +5,18 @@ import InputWithText from '../../../components/InputWithText';
 import CustomButton from '../../../components/CustomButton';
 import InputWithTextarea from '../../../components/InputWithTextarea';
 import { AuthContext } from '../../../context/AuthContext';
+import { SelectList } from 'react-native-dropdown-select-list';
 import axios from 'axios';
 
-const SmsScreenOne = () => {
-    const [senderid, setsenderid] = useState('');
-    const [description, setDescription] = useState('');
-    const [schedule, setSchedule] = useState('');
-    const [msisdn, setMsisdn] = useState('');
-    const [message, setMessage] = useState('');
-    const [msgid, setmsgid] = useState('');
+const TextToSpeechTwo = () => {
+    
+    // const [msisdn, setMsisdn] = useState('');
+    const [words, setWords] = useState('');
     const [responseMessage, setResponseMessage] = useState(null);
     const [responseStatus, setResponseStatus] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [insufficientMessage, setInsufficientMessage] = useState(null);
+    const [dropdownElement, setDropdownElement] = useState([]);
     
     const { logout, userToken } = useContext(AuthContext);
  
@@ -61,11 +59,11 @@ const SmsScreenOne = () => {
     
     const handleSubmit = async () => {
         setIsLoading(true)
-        const msgBody = {senderid, description, msisdn, message, msgid}
+        const msgBody = {words, msisdn}
         console.log('message: '+ JSON.stringify(msgBody));
         
         try {
-            const {data} = await axios.post('https://hordecall.net/new/public/api/multiplesms', msgBody, { headers: {apiToken: userToken } } )
+            const {data} = await axios.post('https://hordecall.net/new/public/api/text2speech', msgBody, { headers: {apiToken: userToken } } )
             
             console.log(data)
             if(data.status === "200"){
@@ -81,13 +79,7 @@ const SmsScreenOne = () => {
                 
                 AsyncStorage.setItem('responseMessage', JSON.stringify(responseMessage));
                 
-                setDescription('');
-                setsenderid('');
-                setSchedule('');
-                setMsisdn('');
-                setMessage('');
-                setmsgid('');
-            
+                setWords('');            
             }
             if(data.status === "302"){
                 logout();
@@ -120,8 +112,6 @@ const SmsScreenOne = () => {
         setIsLoading(false)
     }
     
-    
-    
     return (
         <ScrollView >       
             <SmsHeader/>
@@ -130,51 +120,20 @@ const SmsScreenOne = () => {
             
             
             <View style={styles.Heading}>
-                <Text style={styles.HeadingText}> upload numbers from your contact list</Text>
+                <Text style={styles.HeadingText}> Seperate each number with a comma(,)</Text>
             </View>
             <View  style={styles.container}>
                 
-                <View style={styles.Input}>
-                    <InputWithText 
-                    placeholder="Sender Phone Number" 
-                    value={senderid} 
-                    setValue={setsenderid} 
-                    label={'Sender ID'} />
-                </View>
-                
-                <View style={styles.Input}>
-                    <InputWithText 
-                    placeholder="Description" 
-                    value={description} 
-                    setValue={setDescription} 
-                    label={'Description'} />
-                </View>
-                
-                {/* <View style={styles.Input}>
-                    <InputWithText 
-                    placeholder="Schedule Time to be sent" 
-                    value={schedule} 
-                    setValue={setSchedule} 
-                    label={'Time Schedule'} />
-                </View> */}
-                
-                <View style={styles.Input}>
-                    <InputWithText 
-                    placeholder="Seperate each number with a comma" 
-                    value={msisdn} 
-                    setValue={setMsisdn} 
-                    // keyboardType={'numeric'}
-                    // maxLength={13} 
-                    label={'Enter Numbers'} />
-                </View>
-                
-                <View style={styles.Input}>
-                    <InputWithText 
-                    placeholder="Enter Message Id"
-                    value={msgid} 
-                    setValue={setmsgid} 
-                    label={'Message Id'} 
-                    maxLength={100}/>
+                <View style={styles.dropdown}>
+                    <Text style={styles.Label}>Select List</Text>
+                    <SelectList
+                        labeltext={'Select list'}
+                        label={'lists'}
+                        data={dropdownElement}
+                        save={'key'}
+                        textlabel={'Select List'}
+                        setSelected={(val) => setSelected(val)} 
+                    />
                 </View>
                 
                 <View style={styles.Input}>
@@ -189,7 +148,7 @@ const SmsScreenOne = () => {
                     
                 </View>
                 <CustomButton 
-                text="Send SMS" 
+                text="Send Text to Speech" 
                 onPress={handleSubmit} 
                 type="Hordecall"
                 textColor="Hordecall"/>
@@ -235,7 +194,17 @@ const styles = StyleSheet.create({
     viewMessage: {
         marginTop: 20,
         alignItems: 'center',
-    }
+    },
+    Label:{
+        color: 'rgb(0, 122, 255)',
+        fontWeight: 'bold',
+        marginLeft: 20,
+        marginBottom:10,
+        alignItems: 'flex-start',
+    },
+    dropdown:{
+        paddingTop: 20,
+        width: 325,
+    },
 })
-
-export default SmsScreenOne
+export default TextToSpeechTwo

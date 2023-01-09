@@ -31,7 +31,7 @@ const HomeTabs = ({}) => {
             <Icon name="receipt-outline" size={30} color="#ff0000" />
           ),
         }}/>
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Schedule" 
         component={ScheduleScreen} 
         options={{
@@ -39,7 +39,7 @@ const HomeTabs = ({}) => {
           tabBarIcon: ({focused, color, size}) => (
             <Icon name="today-outline" size={30} color="#ff0000" />
           ),
-        }}/>
+        }}/> */}
       <Tab.Screen 
         name="Settings" 
         component={SettingsScreen} 

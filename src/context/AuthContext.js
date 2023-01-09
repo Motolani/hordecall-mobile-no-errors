@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -10,7 +10,6 @@ const AuthProvider = ({children}) => {
   const [userInfo, setUserInfo] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  
 
   const login = async (email, password) => {
     const authUser = {email, password}
@@ -188,12 +187,13 @@ const AuthProvider = ({children}) => {
       console.log(`isLogged in error ${e}`);
     }
   };
-
+  
   useEffect(() => {
     isLoggedIn();
     // WalletBal();
   }, []);
-
+  
+  
   return (
     <AuthContext.Provider value={{login, logout, isLoading, userToken, userInfo, errorMessage, userBalance, WalletBal }}>
       {children}

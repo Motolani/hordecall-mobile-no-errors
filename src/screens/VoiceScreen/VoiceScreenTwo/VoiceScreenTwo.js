@@ -269,7 +269,7 @@ const VoiceScreenTwo = () => {
                 </View>) : null}
                 
                 <CustomButton 
-                text="Send SMS" 
+                text="Send Voice Call" 
                 onPress={handleSubmit} 
                 type="Hordecall"
                 textColor="Hordecall"/>

@@ -11,7 +11,7 @@ const SmsScreen = () => {
 
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Contacts" 
         component={SmsScreenOne} 
         options={{
@@ -19,7 +19,7 @@ const SmsScreen = () => {
           tabBarIcon: ({focused, color, size}) => (
             <Icon name="phone-portrait-outline" size={30} color="#ff0000" />
           ),
-        }}/>
+        }}/> */}
       <Tab.Screen 
         name="Manual" 
         component={SmsScreenTwo} 

@@ -231,7 +231,7 @@ const VoiceScreenThree = () => {
                         />
                 </View> */}
                 <CustomButton 
-                text="Send SMS" 
+                text="Send Voice Call" 
                 onPress={handleSubmit} 
                 type="Hordecall"
                 textColor="Hordecall"/>
