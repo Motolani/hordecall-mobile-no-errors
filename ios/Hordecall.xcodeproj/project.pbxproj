@@ -14,7 +14,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-Hordecall-HordecallTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Hordecall-HordecallTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A72579672951E26700CABBA8 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = A72579662951E26600CABBA8 /* ios */; };
 		A725796A2951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72579692951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift */; };
 		A735E60E2902CEF800C87B8E /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = A735E60D2902CEF700C87B8E /* fonts */; };
 /* End PBXBuildFile section */
@@ -46,7 +45,6 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-Hordecall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hordecall.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Hordecall/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Hordecall-HordecallTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hordecall-HordecallTests.release.xcconfig"; path = "Target Support Files/Pods-Hordecall-HordecallTests/Pods-Hordecall-HordecallTests.release.xcconfig"; sourceTree = "<group>"; };
-		A72579662951E26600CABBA8 /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; sourceTree = "<group>"; };
 		A72579682951E43C00CABBA8 /* Hordecall-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hordecall-Bridging-Header.h"; sourceTree = "<group>"; };
 		A72579692951E43E00CABBA8 /* libRNAudioRecorderPlayer.a.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libRNAudioRecorderPlayer.a.swift; sourceTree = "<group>"; };
 		A735E60D2902CEF700C87B8E /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A72579662951E26600CABBA8 /* ios */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -211,7 +208,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -255,7 +252,6 @@
 			files = (
 				A735E60E2902CEF800C87B8E /* fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				A72579672951E26700CABBA8 /* ios in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +261,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -393,6 +390,7 @@
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -680,6 +678,7 @@
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
