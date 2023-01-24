@@ -141,8 +141,8 @@ const TextToSpeechTwo = () => {
                     placeholder="Message to be sent"
                     multiline={true}
                     numberOfLines={10}
-                    value={message} 
-                    setValue={setMessage}
+                    value={words} 
+                    setValue={setWords}
                     label={'Message'} 
                     />
                     
