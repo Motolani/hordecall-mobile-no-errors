@@ -30,9 +30,12 @@ const VoiceScreenTwo = () => {
     const { logout, userToken } = useContext(AuthContext);
     const [elementVisible, setElementVisible] = useState(false);
     const [fromDocument, setFromDocument] = useState(0);
+    const [fromDocumentUri, setFromDocumentUri] = useState('');
+    const [fromDocumentPath, setFromDocumentPath] = useState('');
+    const [fromDocumentType, setFromDocumentType] = useState('');
     
  
-    const { filePath, fileUri } = useContext(FileContext);
+    const { filePath, fileUri, uploading } = useContext(FileContext);
     
     const AlertFunc = (message, status) => {
         if(status === '200'){
@@ -75,94 +78,88 @@ const VoiceScreenTwo = () => {
         setIsLoading(true)
         
         let theUri 
-        theUri = fileUri.replace(`/${filePath}`,'')
-        
-        if (fromDocument == 1) {
-            //uploading file from phone
-            const formData = {senderId, description, numbers, audio_file:i.name,retry_time:retryTime, max_retries:maxRetries, play_length:playLength}
-        console.log('message: '+ JSON.stringify(formData));
-        } else {
-            //recording on phone
-            const formData = new FormData();
-        
-            formData.append('senderId',senderId);
-            formData.append('description',description);
-            formData.append('numbers',numbers);
-            formData.append('retry_time',retryTime);
-            formData.append('max_retries',maxRetries);
-            formData.append('play_length',playLength);
-            formData.append('audio_file', {
-                uri: theUri,
-                type: 'audio/m4a', 
-                name: filePath,
-            });
-        }
+        theUri = fileUri.replace('file://','')
+
         
         
-        
-        
-        const header = {  headers:{
-            'Content-Type': 'multipart/form-data',
-            // Accept: 'application/json',
-            apiToken: userToken,
-            }
-        }
         const url = 'https://hordecall.net/new/public/api/voice'
+        
+        const formData = new FormData();
+        
+        formData.append('senderId', senderId);
+        formData.append('description', description);
+        formData.append('numbers', numbers);
+        formData.append('retry_time', retryTime);
+        formData.append('max_retries', maxRetries);
+        formData.append('play_length', playLength);
+        formData.append('enable_sms', enableSms);
+        
+        if(uploading == 0){
+            formData.append('audio_file', {
+                    uri: fileUri,
+                    name: filePath,
+                    type: 'audio/m4a', 
+                }
+            );
+        }else{
+            formData.append('audio_file', {
+                    uri: fromDocumentUri,
+                    name: fromDocumentPath,
+                    type: fromDocumentType, 
+                }
+            );
+        }
+        
+    
         console.log('formData: '+ JSON.stringify(formData));
         
         try {
-            const {data} = await axios.post( url, formData, header);
+            let res = await fetch(url, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Accept: "application/json",
+                    apiToken: userToken
+                }
+            });
+            let responseJson = await res.json();
             
-            console.log(data)
-            if(data.status === "200"){
-                // setErrorMessage(null);
-                // setInsufficientMessage(null);
-                // AsyncStorage.removeItem('errorMessage');
-                
-                let responseMessage = data.message;
-                let responseStatus = data.status;
-                
+            console.log('here');
+            console.log(responseJson);
+            
+            if (responseJson.status == "200") {
+                let responseMessage = responseJson.message;
+                let responseStatus = responseJson.status;
+            
                 setResponseMessage(responseMessage);
                 setResponseStatus(responseStatus);
                 
-                // AsyncStorage.setItem('responseMessage', JSON.stringify(responseMessage));
+                setDescription('');
+                setSenderId('');
+                setSchedule('');
+                setNumbers('');
+                setRetryTime(0);
+                setMaxRetries(0);
+                setPlayLength(0);
+                setEnableSms(0);
                 
-                // setDescription('');
-                // setSenderId('');
-                // setSchedule('');
-                // setNumbers('');
-                // setMessage('');
-                // setmsgid('');
-                // setPlayLength('');
-                // setMaxRetries('');
-                // setRetryTime('');
-            
+                
+                Alert.alert("Profile picture updated Successful");
             }
-            if(data.status === "302"){
+            if(responseJson.status === "302"){
                 logout();
             }
-            if(data.status === "309"){
-                
-                let insufficientMessage = data.message;
-                let responseStatus = data.status;
+            if(responseJson.status === "309"){
+            
+                let insufficientMessage = responseJson.message;
+                let responseStatus = responseJson.status;
                 
                 setResponseMessage(insufficientMessage);
                 setResponseStatus(responseStatus);
-
-                // AsyncStorage.setItem('errorMessage', JSON.stringify(insufficientMessage));
                 
+                Alert.alert(insufficientMessage);
             }
-            
-            // setInsufficientMessage(null);
-            // setResponseMessage(null);
-            let errorMessage = data.message;
-            let responseStatus = data.status;
-            
-            setResponseMessage(errorMessage);
-            setResponseStatus(responseStatus);
-            
-            // AsyncStorage.setItem('errorMessage', JSON.stringify(errorMessage));
-            
         } catch (error) {
             console.log(error)
         }
@@ -173,21 +170,20 @@ const VoiceScreenTwo = () => {
             // console.log('gotten here')
         try {
             // setFromDocument(1);
-        // console.log('now here')
-            // const response = await DocumentPicker.pick({
-            //     type: [DocumentPicker.types.allFiles],
-            //     presentationStyle: 'fullScreen',
-            // });
-            // // console.log('here')
-            // // setFileResponse(response);
-            // // console.log(response);
-            // for (i in response){
-            //     console.log(i.uri, i.name, i.size, i.type)
-            // }
-            const res = await DocumentPicker.pickSingle({
-                type: [DocumentPicker.types.allFiles]
-            })
-            console.log(res)
+        console.log('now here')
+            const response = await DocumentPicker.pickSingle({
+                type: [DocumentPicker.types.audio],
+                presentationStyle: 'fullScreen',
+            });
+            console.log('here')
+            setFileResponse(response);
+            console.log(response);
+            
+            console.log(i.uri, i.name, i.size, i.type)
+            setFromDocumentUri(i.uri);
+            setFromDocumentPath(i.name);
+            setFromDocumentType(i.type);
+            
         } catch (err) {
         // console.log('now here')
             console.warn(err);
@@ -247,11 +243,11 @@ const VoiceScreenTwo = () => {
                 </View>
                 
                 <View style={styles.Input}>
-                    <InputWithText 
+                    { <InputWithText 
                     placeholder="Description" 
                     value={description} 
                     setValue={setDescription} 
-                    label={'Description'} />
+                    label={'Description'} />}
                 </View>
                 
                 {/* <View style={styles.Input}>
@@ -268,6 +264,24 @@ const VoiceScreenTwo = () => {
                     setValue={setNumbers} 
                     label={'Enter Numbers'} />
                 </View>
+                
+                <View style={styles.Input}>
+                {uploading == 0 ? <InputWithText 
+                    value={filePath} 
+                    selectTextOnFocus={false}
+                    editable={false}
+                    // setValue={setNumbers} 
+                    label={'Audio File'} /> : <InputWithText 
+                    value={fromDocumentPath} 
+                    selectTextOnFocus={false}
+                    editable={false}
+                    // setValue={setNumbers} 
+                    label={'Audio File'} />}
+                </View>
+                
+                {uploading == 1 ? (<View style={styles.Input}>
+                    <Button title="Select 📑" onPress={handleDocumentSelection}/>
+                </View>) : null}
                 
                 <View style={styles.dropdown}>
                     <Text style={styles.Label}>Select Play Length</Text>
@@ -309,19 +323,14 @@ const VoiceScreenTwo = () => {
                     size={25}
                     fillColor="red"
                     unfillColor="#FFFFFF"
-                    text="Select From File"
-                    iconStyle={{ borderColor: "red" }}
+                    text="Enable SMS"
+                    iconStyle={{ borderColor: "black" }}
                     innerIconStyle={{ borderWidth: 2 }}
-                    // textStyle={{ fontFamily: "JosefinSans-Regular" }}
                     onPress={(isChecked) => {
-                        setElementVisible(!elementVisible)
+                        setEnableSms(1)
                     }}
                     />
                 </View>
-                
-                {elementVisible ? (<View style={styles.Input}>
-                    <Button title="Select 📑" onPress={handleDocumentSelection}/>
-                </View>) : null}
                 
                 <CustomButton 
                 text="Send Voice Call" 

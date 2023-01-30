@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     },
     text_Hordecall:{
       color: "#ffffff",
+    },
+    text_Blue:{
+      color: "#00bfff",
     }
 })
 export default CustomButton

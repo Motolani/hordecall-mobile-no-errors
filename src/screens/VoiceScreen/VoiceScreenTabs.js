@@ -5,21 +5,14 @@ import VoiceScreenOne from './VoiceScreenOne';
 import VoiceScreenTwo from './VoiceScreenTwo';
 import VoiceScreenThree from './VoiceScreenThree';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Record from '../VoiceRecording/Record';
 
 const VoiceScreenTabs = () => {
   const Tab = createBottomTabNavigator();
 
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Tab.Screen 
-        name="Contacts" 
-        component={VoiceScreenOne} 
-        options={{
-          tabBarLabel:'Contacts',      
-          tabBarIcon: ({focused, color, size}) => (
-            <Icon name="phone-portrait-outline" size={30} color="#ff0000" />
-          ),
-        }}/> */}
+      
       <Tab.Screen 
         name="Manual" 
         component={VoiceScreenTwo} 
@@ -29,6 +22,17 @@ const VoiceScreenTabs = () => {
             <Icon name="keypad-outline" size={30} color="#ff0000" />
           ),
         }}/>
+        
+        {/* <Tab.Screen 
+        name="Contacts" 
+        component={Record} 
+        options={{
+          tabBarLabel:'Record',      
+          tabBarIcon: ({focused, color, size}) => (
+            <Icon name="mic-circle-outline" size={30} color="#ff0000" />
+          ),
+        }}/> */}
+        
       <Tab.Screen 
         name="List" 
         component={VoiceScreenThree} 

@@ -8,16 +8,16 @@ const SettingsScreen = ({navigation}) => {
 
   return (
     <View>
-      <Text>SettingsScreen</Text>
+      {/* <Text>SettingsScreen</Text> */}
       <CustomButton 
         text="Logout" 
         onPress={() => {logout()}} 
         type="PRIMARY" />
         
-        <CustomButton 
+        {/* <CustomButton 
         text="Record Voice" 
         onPress={() => navigation.navigate("RecordVoice")} 
-        type="PRIMARY" />
+        type="PRIMARY" /> */}
     </View>
   );
 };

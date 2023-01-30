@@ -19,7 +19,7 @@ const SmsScreen = () => {
             <Icon name="mic-circle-outline" size={30} color="#ff0000" />
           ),
         }}/>
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Manual" 
         component={RecordedFiles} 
         options={{
@@ -27,7 +27,7 @@ const SmsScreen = () => {
           tabBarIcon: ({focused, color, size}) => (
             <Icon name="reader-outline" size={30} color="#ff0000" />
           ),
-        }}/>
+        }}/> */}
     </Tab.Navigator>
   )
 }

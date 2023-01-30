@@ -18,7 +18,8 @@ const DashboardScreen = ( {navigation} ) => {
       <HeaderTop />
       <GridBox 
           onPress1={() => navigation.navigate("SmsScreen")} 
-          onPress2={() => navigation.navigate("VoiceScreen")} 
+          // onPress2={() => navigation.navigate("VoiceScreen")}
+          onPress2={() => navigation.navigate("RecordVoice")} 
           onPress3={() => navigation.navigate("TextToSpeechScreen")} 
           onPress4={ErrorAlert} 
           />

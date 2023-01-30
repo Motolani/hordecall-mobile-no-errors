@@ -8,30 +8,30 @@ const TwoGridBox = ({ onPress1, onPress2, onPress3, name1, name2, name3 }) => {
   return (
     <View style= {styles.BoxContainer}>
         <View style= {styles.Box}>
-            <View style={styles.inner}>
+            <TouchableOpacity onPress= {onPress1} style={styles.inner}>
                 <TouchableOpacity onPress= {onPress1} >
                     <Icon name="mail-outline" size={30} color="#00bfff" />
                 </TouchableOpacity>
                 <Text style={styles.TheText}>{name1}</Text>
-            </View>
+            </TouchableOpacity>
         </View>
         
         <View style= {styles.Box}>
-            <View style={styles.inner}>
+            <TouchableOpacity onPress= {onPress2} style={styles.inner}>
                 <TouchableOpacity onPress= {onPress2}>
                     <Icon name="mic-outline" size={30} color="#00bfff" />
                 </TouchableOpacity>
                 <Text style={styles.TheText}>{name2}</Text>
-            </View>
+            </TouchableOpacity>
         </View>
         
         <View style= {styles.Box}>
-            <View style={styles.inner}>
-            <TouchableOpacity onPress= {onPress3}>
+            <TouchableOpacity onPress= {onPress3} style={styles.inner}>
+                <TouchableOpacity onPress= {onPress3}>
                     <Icon name="wallet-outline" size={30} color="#00bfff" />
                 </TouchableOpacity>
                 <Text style={styles.TheText}>{name3}</Text>
-            </View>
+            </TouchableOpacity>
         </View>
         
         {/* <View style= {styles.Box}>
@@ -44,7 +44,7 @@ const TwoGridBox = ({ onPress1, onPress2, onPress3, name1, name2, name3 }) => {
             </View>
         </View> */}
     </View>
-  )
+    )
 }
 
 const styles = StyleSheet.create({

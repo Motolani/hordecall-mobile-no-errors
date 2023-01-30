@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 
 
-const Record = () => {
+const Record = ( {navigation} ) => {
         
     const [recordSecs, setRecordSecs] = useState(0);
     const [recordTime, setRecordTime] = useState('00:00:00');
@@ -27,7 +27,7 @@ const Record = () => {
     const [file, setFile] = useState('');
     const [recording, setRecording] = useState(0);
     
-    const { setFilePath, setFileUri, fileUri, filePath} = useContext(FileContext);
+    const { setFilePath, setFileUri, setUploading, fileUri, filePath} = useContext(FileContext);
     
     
     const audioRecorderPlayer = new AudioRecorderPlayer();
@@ -122,7 +122,15 @@ const Record = () => {
         audioRecorderPlayer.removePlayBackListener();
     }, []);
     
+    const navToRecordUpload = () =>{
+        setUploading(1);
+        navigation.navigate("VoiceScreen")
+    }
     
+    const useRecording = () =>{
+        setUploading(0);
+        navigation.navigate("VoiceScreen")
+    }
     return (
         <SafeAreaView style={styles.MainContainer}>
             <View style={styles.dropdown}>
@@ -135,51 +143,66 @@ const Record = () => {
             <View style={styles.dropdown}> 
                 
                     {recording == 0 ? (<CustomButton 
-                    text={<Icon name="mic" size={30} color="#00bfff" />} 
+                    text={<Icon name="mic" size={100} color="#00bfff" />} 
                     onPress={() => onStartRecord()} 
                     type="Hordecall"
                     textColor="Hordecall"/>) : <CustomButton 
-                    text={<Icon name="stop-circle-sharp" size={30} color="#00bfff" />} 
+                    text={<Icon name="stop-circle-sharp" size={100} color="#00bfff" />} 
                     onPress={() => onStopRecord()} 
                     type="Hordecall"
                     textColor="Hordecall"/>}
             </View>
             
-            {/* <View style={styles.dropdown}> 
-                <CustomButton 
-                    text="STOP" 
-                    onPress={() => onStopRecord()} 
-                    type="Hordecall"
-                    textColor="Hordecall"/>
-            </View> */}
-            
             <View style={styles.dropdown}> 
                 <Text>{playTime} / {duration}</Text>
             </View>
-            
             <View style={styles.dropdown}> 
-                <CustomButton 
-                    text="PLAY" 
-                    onPress={() => onStartPlay()} 
+                    <CustomButton 
+                    text="Upload Audio from Phone" 
+                    onPress={() => navToRecordUpload()} 
                     type="Hordecall"
                     textColor="Hordecall"/>
             </View>
+                
+            <View style={{flexDirection: 'row'}}>
+                <View style={styles.dropdownTwo}> 
+                    <CustomButton 
+                        text={<Icon name="play-sharp" size={30} color="#00bfff" />}
+                        onPress={() => onStartPlay()} 
+                        type="Hordecall"
+                        textColor="Hordecall"/>
+                        
+                </View>
+                
+                <View style={styles.dropdownTwo}> 
+                    <CustomButton 
+                        text={<Icon name="pause-sharp" size={30} color="#00bfff" />} 
+                        onPress={() => onPausePlay()} 
+                        type="Hordecall"
+                        textColor="Hordecall"/>
+                </View>
             
-            <View style={styles.dropdown}> 
-                <CustomButton 
-                    text="PAUSE" 
-                    onPress={() => onPausePlay()} 
+            
+                <View style={styles.dropdownTwo}> 
+                    <CustomButton 
+                    text={<Icon name="stop-sharp" size={30} color="#00bfff" />} 
+                    onPress={() => onStopPlay()} 
                     type="Hordecall"
                     textColor="Hordecall"/>
+                </View>
             </View>
-            
+            {/* <View style={{flexDirection: 'row'}}> */}
+                
             <View style={styles.dropdown}> 
-                <CustomButton 
-                text="STOP" 
-                onPress={() => onStopPlay()} 
-                type="Hordecall"
-                textColor="Hordecall"/>
+                {recordTime != '00:00:00' && recording == 0 ? (<CustomButton 
+                    text="Send Recording" 
+                    onPress={() => useRecording()} 
+                    type="Hordecall"
+                    textColor="Hordecall"/>) : null }
             </View>
+                
+            {/* </View> */}
+            
         </SafeAreaView>
       )
 }
@@ -202,6 +225,16 @@ const styles = StyleSheet.create({
     dropdown:{
         paddingTop: 20,
         width: 325,
+        alignItems: "center",
+    },
+    dropdownTwo:{
+        paddingTop: 20,
+        width: 105,
+        alignItems: "center",
+    },
+    dropdownThree:{
+        paddingTop: 20,
+        width: 125,
         alignItems: "center",
     },
     Heading:{
