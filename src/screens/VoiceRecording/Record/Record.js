@@ -1,14 +1,17 @@
 import {  View, Text, StyleSheet, ScrollView, StatusBar, TextInput, Alert, Button, SafeAreaView } from 'react-native'
-import React, { useState, useContext, useEffect }  from 'react'
+import React, { useState, useContext, useEffect, useCallback     }  from 'react'
 import CustomButton from '../../../components/CustomButton';
+import { FileContext } from '../../../context/FileContext';
 
 import AudioRecorderPlayer, {
     AVEncoderAudioQualityIOSType,
     AVEncodingOption,
     AudioEncoderAndroidType,
+    AVModeIOSOption,
     AudioSet,
     AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 
@@ -21,29 +24,40 @@ const Record = () => {
     const [currentDurationSec, setCurrentDurationSec] = useState(0);
     const [playTime, setPlayTime] = useState('00:00:00');
     const [duration, setDuration] = useState('00:00:00');
+    const [file, setFile] = useState('');
+    const [recording, setRecording] = useState(0);
+    
+    const { setFilePath, setFileUri, fileUri, filePath} = useContext(FileContext);
+    
     
     const audioRecorderPlayer = new AudioRecorderPlayer();
     audioRecorderPlayer.setSubscriptionDuration(0.09);
-        
-    onStartRecord = async () => {
     
-        const path = 'hello.m4a';
-        const audioSet = {
-            AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-            AudioSourceAndroid: AudioSourceAndroidType.MIC,
-            AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
-            AVNumberOfChannelsKeyIOS: 2,
-            AVFormatIDKeyIOS: AVEncodingOption.aac,
-        };
+    let pathExtention = Math.floor(Math.random() * 100);
+    const path = `HordecallVoice${pathExtention}.m4a`;
+    
+    const meteringEnabled = false;
+    
+    const audioSet = {
+        AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+        AudioSourceAndroid: AudioSourceAndroidType.MIC,
+        AVModeIOS: AVModeIOSOption.measurement,
+        AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+        AVNumberOfChannelsKeyIOS: 2,
+        AVFormatIDKeyIOS: AVEncodingOption.aac,
+    };
+    
+    
+    
+    const onStartRecord = useCallback(async () => {
         console.log('audioSet', audioSet);
         console.log('path', path);
-        
-        const meteringEnabled = false;
-
+        setRecording(1);
+    
         let uri;
         
         try {
-            uri = await audioRecorderPlayer.startRecorder(path, meteringEnabled, audioSet);
+            uri = await audioRecorderPlayer.startRecorder(path, audioSet, meteringEnabled);
         } catch (e) { console.log("ERR audioRecorderPlayer.startRecorder: ", e) }
         
         audioRecorderPlayer.addRecordBackListener((e) => {
@@ -53,23 +67,34 @@ const Record = () => {
             );
             setRecordSecs(recordSecs),
             setRecordTime(recordTime)
+            
         });
+        
         console.log('recordSecs:' + recordSecs);
         console.log('recordTime:' + recordTime);
         console.log(`uri: ${uri}`);
-    };
+        setFile(uri);
+        
+        setFileUri(uri);
+        setFilePath(path);
+        
+        console.log('file_path: '+filePath);
+        console.log('uri_path: '+fileUri);
+    }, []);
     
     
-    onStopRecord = async () => {
+    const onStopRecord = useCallback(async () => {
+        setRecording(0);
         const result = await audioRecorderPlayer.stopRecorder();
         audioRecorderPlayer.removeRecordBackListener();
-        setRecordSecs(0)
+        setRecordSecs(0);
+        // setRecordTime('00:00:00');
         console.log(result);
-    };
+    }, []);
     
-    onStartPlay = async (e) => {
+    const onStartPlay = useCallback(async (e) => {
         console.log('onStartPlay');
-        const path = 'hello.m4a'
+        // const path = 'hello.m4a'
         const msg = await audioRecorderPlayer.startPlayer(path);
         audioRecorderPlayer.setVolume(1.0);
         console.log(msg);
@@ -79,23 +104,23 @@ const Record = () => {
                 audioRecorderPlayer.stopPlayer();
             }
             setCurrentPositionSec(e.currentPosition),
-            currentPositionSec(e.duration),
+            setCurrentPositionSec(e.duration),
             setPlayTime(audioRecorderPlayer.mmssss(
                 Math.floor(e.currentPosition),
             )),
             setDuration(audioRecorderPlayer.mmssss(Math.floor(e.duration)))
         });
-    };
+    }, []);
     
-    onPausePlay = async (e) => {
+    const onPausePlay = useCallback(async (e) => {
         await audioRecorderPlayer.pausePlayer();
-    };
+    }, []);
     
-    onStopPlay = async (e) => {
+    const onStopPlay = useCallback(async (e) => {
         console.log('onStopPlay');
         audioRecorderPlayer.stopPlayer();
         audioRecorderPlayer.removePlayBackListener();
-    };
+    }, []);
     
     
     return (
@@ -108,20 +133,25 @@ const Record = () => {
             </View>
             
             <View style={styles.dropdown}> 
-                <CustomButton 
-                    text="RECORD" 
+                
+                    {recording == 0 ? (<CustomButton 
+                    text={<Icon name="mic" size={30} color="#00bfff" />} 
                     onPress={() => onStartRecord()} 
                     type="Hordecall"
-                    textColor="Hordecall"/>
+                    textColor="Hordecall"/>) : <CustomButton 
+                    text={<Icon name="stop-circle-sharp" size={30} color="#00bfff" />} 
+                    onPress={() => onStopRecord()} 
+                    type="Hordecall"
+                    textColor="Hordecall"/>}
             </View>
             
-            <View style={styles.dropdown}> 
+            {/* <View style={styles.dropdown}> 
                 <CustomButton 
                     text="STOP" 
                     onPress={() => onStopRecord()} 
                     type="Hordecall"
                     textColor="Hordecall"/>
-            </View>
+            </View> */}
             
             <View style={styles.dropdown}> 
                 <Text>{playTime} / {duration}</Text>

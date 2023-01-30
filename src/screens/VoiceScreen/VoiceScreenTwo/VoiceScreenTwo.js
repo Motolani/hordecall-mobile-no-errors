@@ -10,12 +10,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import * as DocumentPicker from 'react-native-document-picker';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { FileContext } from '../../../context/FileContext';
 
 const VoiceScreenTwo = () => {
-    const [senderid, setsenderid] = useState('');
+    const [senderId, setSenderId] = useState('');
     const [description, setDescription] = useState('');
     const [schedule, setSchedule] = useState('');
-    // const [msisdn, setMsisdn] = useState('');
     const [playLength, setPlayLength] = useState(0);
     const [maxRetries, setMaxRetries] = useState(0);
     const [retryTime, setRetryTime] = useState(0);
@@ -29,7 +29,11 @@ const VoiceScreenTwo = () => {
     const [fileResponse, setFileResponse] = useState([]);
     const { logout, userToken } = useContext(AuthContext);
     const [elementVisible, setElementVisible] = useState(false);
+    const [fromDocument, setFromDocument] = useState(0);
+    
  
+    const { filePath, fileUri } = useContext(FileContext);
+    
     const AlertFunc = (message, status) => {
         if(status === '200'){
             Alert.alert(  
@@ -69,17 +73,51 @@ const VoiceScreenTwo = () => {
     
     const handleSubmit = async () => {
         setIsLoading(true)
-        const msgBody = {senderid, description, msisdn, message, msgid}
-        console.log('message: '+ JSON.stringify(msgBody));
+        
+        let theUri 
+        theUri = fileUri.replace(`/${filePath}`,'')
+        
+        if (fromDocument == 1) {
+            //uploading file from phone
+            const formData = {senderId, description, numbers, audio_file:i.name,retry_time:retryTime, max_retries:maxRetries, play_length:playLength}
+        console.log('message: '+ JSON.stringify(formData));
+        } else {
+            //recording on phone
+            const formData = new FormData();
+        
+            formData.append('senderId',senderId);
+            formData.append('description',description);
+            formData.append('numbers',numbers);
+            formData.append('retry_time',retryTime);
+            formData.append('max_retries',maxRetries);
+            formData.append('play_length',playLength);
+            formData.append('audio_file', {
+                uri: theUri,
+                type: 'audio/m4a', 
+                name: filePath,
+            });
+        }
+        
+        
+        
+        
+        const header = {  headers:{
+            'Content-Type': 'multipart/form-data',
+            // Accept: 'application/json',
+            apiToken: userToken,
+            }
+        }
+        const url = 'https://hordecall.net/new/public/api/voice'
+        console.log('formData: '+ JSON.stringify(formData));
         
         try {
-            const {data} = await axios.post('https://hordecall.net/new/public/api/multiplesms', msgBody, { headers: {apiToken: userToken } } )
+            const {data} = await axios.post( url, formData, header);
             
             console.log(data)
             if(data.status === "200"){
                 // setErrorMessage(null);
                 // setInsufficientMessage(null);
-                AsyncStorage.removeItem('errorMessage');
+                // AsyncStorage.removeItem('errorMessage');
                 
                 let responseMessage = data.message;
                 let responseStatus = data.status;
@@ -87,14 +125,17 @@ const VoiceScreenTwo = () => {
                 setResponseMessage(responseMessage);
                 setResponseStatus(responseStatus);
                 
-                AsyncStorage.setItem('responseMessage', JSON.stringify(responseMessage));
+                // AsyncStorage.setItem('responseMessage', JSON.stringify(responseMessage));
                 
-                setDescription('');
-                setsenderid('');
-                setSchedule('');
-                setMsisdn('');
-                setMessage('');
-                setmsgid('');
+                // setDescription('');
+                // setSenderId('');
+                // setSchedule('');
+                // setNumbers('');
+                // setMessage('');
+                // setmsgid('');
+                // setPlayLength('');
+                // setMaxRetries('');
+                // setRetryTime('');
             
             }
             if(data.status === "302"){
@@ -108,7 +149,7 @@ const VoiceScreenTwo = () => {
                 setResponseMessage(insufficientMessage);
                 setResponseStatus(responseStatus);
 
-                AsyncStorage.setItem('errorMessage', JSON.stringify(insufficientMessage));
+                // AsyncStorage.setItem('errorMessage', JSON.stringify(insufficientMessage));
                 
             }
             
@@ -120,7 +161,7 @@ const VoiceScreenTwo = () => {
             setResponseMessage(errorMessage);
             setResponseStatus(responseStatus);
             
-            AsyncStorage.setItem('errorMessage', JSON.stringify(errorMessage));
+            // AsyncStorage.setItem('errorMessage', JSON.stringify(errorMessage));
             
         } catch (error) {
             console.log(error)
@@ -131,6 +172,7 @@ const VoiceScreenTwo = () => {
     const handleDocumentSelection = async () => {
             // console.log('gotten here')
         try {
+            // setFromDocument(1);
         // console.log('now here')
             // const response = await DocumentPicker.pick({
             //     type: [DocumentPicker.types.allFiles],
@@ -159,9 +201,16 @@ const VoiceScreenTwo = () => {
     ];
     
     const retry_time = [
-        { value: '1' },
-        { value: '2' },
         { value: '3' },
+        { value: '6' },
+        { value: '9' },
+        { value: '12' },
+        { value: '15' },
+        { value: '18' },
+        { value: '21' },
+        { value: '24' },
+        { value: '27' },
+        { value: '30' },
     ];
     
     const play_length = [
@@ -171,6 +220,12 @@ const VoiceScreenTwo = () => {
         { value: '60' },
     ];
     
+    useEffect(() => {
+        console.log('file_path: '+filePath);
+        console.log('uri_path: '+fileUri);
+        console.log('sexy and i know it');
+        setFromDocument(0);
+      }, [])
     return (
         <ScrollView >       
             <SmsHeader/>
@@ -186,8 +241,8 @@ const VoiceScreenTwo = () => {
                 <View style={styles.Input}>
                     <InputWithText 
                     placeholder="Sender Phone Number" 
-                    value={senderid} 
-                    setValue={setsenderid} 
+                    value={senderId} 
+                    setValue={setSenderId} 
                     label={'Sender ID'} />
                 </View>
                 
@@ -221,7 +276,7 @@ const VoiceScreenTwo = () => {
                         label={'play length'}
                         data={play_length}
                         save={'value'}
-                        setSelected={(val) => setSelected(val)} 
+                        setSelected={(val) => setPlayLength(val)} 
                     />
                 </View>
                 
@@ -233,7 +288,7 @@ const VoiceScreenTwo = () => {
                         data={max_retries}
                         save={'value'}
                         textlabel={'Select List'}
-                        setSelected={(val) => setSelected(val)} 
+                        setSelected={(val) => setMaxRetries(val)} 
                     />
                 </View>
                 
@@ -245,7 +300,7 @@ const VoiceScreenTwo = () => {
                         data={retry_time}
                         save={'value'}
                         textlabel={'Select List'}
-                        setSelected={(val) => setSelected(val)} 
+                        setSelected={(val) => setRetryTime(val)} 
                     />
                 </View>
                 

@@ -8,40 +8,40 @@ const GridBox = ({ onPress1, onPress2, onPress3, onPress4 }) => {
   return (
     <View style= {styles.BoxContainer}>
         <View style= {styles.Box}>
-            <View style={styles.inner}>
+            <TouchableOpacity onPress= {onPress1} style={styles.inner}>
                 <TouchableOpacity onPress= {onPress1} >
                     <Icon name="mail-outline" size={30} color="#00bfff" />
                 </TouchableOpacity>
                 <Text style={styles.TheText}>SMS</Text>
-            </View>
+            </TouchableOpacity >
         </View>
         
         <View style= {styles.Box}>
-            <View style={styles.inner}>
+            <TouchableOpacity onPress= {onPress2} style={styles.inner}>
                 <TouchableOpacity onPress= {onPress2}>
                     <Icon name="mic-outline" size={30} color="#00bfff" />
                 </TouchableOpacity>
                 <Text style={styles.TheText}>Voice</Text>
-            </View>
+            </TouchableOpacity>
         </View>
         
         <View style= {styles.Box}>
-            <View style={styles.inner}>
-            <TouchableOpacity onPress= {onPress3}>
+            <TouchableOpacity onPress= {onPress3} style={styles.inner}>
+                <TouchableOpacity onPress= {onPress3}>
                     <Icon name="volume-high-outline" size={30} color="#00bfff" />
                 </TouchableOpacity>
                 <Text style={styles.TheText}>Text to speech</Text>
-            </View>
+            </TouchableOpacity>
         </View>
         
         <View style= {styles.Box}>
-            <View style={styles.inner}>
+            <TouchableOpacity onPress= {onPress4} style={styles.inner}>
                 
                 <TouchableOpacity onPress= {onPress4}>
                     <Icon name="md-card-outline" size={30} color="#00bfff" />
                 </TouchableOpacity>
                 <Text style={styles.TheText}>Bills Payment</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     </View>
   )
