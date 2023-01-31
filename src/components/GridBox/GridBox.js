@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Platform, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -49,10 +49,10 @@ const GridBox = ({ onPress1, onPress2, onPress3, onPress4 }) => {
 
 const styles = StyleSheet.create({
     BoxContainer: {
-        width: hp('50%'),
+        width: hp('60%'),
         height: hp('67%'),
         backgroundColor: '#F0F0F0',
-        padding: 5,
+        padding: Platform.OS === 'ios' ? 5 : 43,
         flexDirection: 'row',
         flexWrap: 'wrap',
         // alignItems: 'center',

@@ -112,6 +112,40 @@ const TextToSpeechTwo = () => {
         setIsLoading(false)
     }
     
+    const dropdownData = async () => {
+        try {
+            const {data} = await axios.get('https://hordecall.net/new/public/api/contact', { headers: {apiToken: userToken } } )
+            
+            // console.log(data);
+            
+            if(data.status === "200"){
+                let contactFiles = data.data.data
+                
+                initialArray = [];
+                
+                contactFiles.forEach(contact => {
+                    initialArray.push({'key' : contact.id, 'value' : contact.name});
+                    // dropdownElements.push(initialArray);
+                });
+                
+             
+                setDropdownElement(initialArray);
+                
+            }else if(data.status === "302"){
+                logout();
+            }else{
+                ErrorAlert(data.message);
+            }
+            let dropdownElements = initialArray;
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+    useEffect(() => {
+        dropdownData();
+    }, []);
     return (
         <ScrollView >       
             <SmsHeader/>
@@ -120,7 +154,7 @@ const TextToSpeechTwo = () => {
             
             
             <View style={styles.Heading}>
-                <Text style={styles.HeadingText}> Seperate each number with a comma(,)</Text>
+                <Text style={styles.HeadingText}> Select numbers from uploaded lists</Text>
             </View>
             <View  style={styles.container}>
                 

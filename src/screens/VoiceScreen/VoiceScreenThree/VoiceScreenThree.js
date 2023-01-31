@@ -252,7 +252,7 @@ const VoiceScreenThree = () => {
             
             
             <View style={styles.Heading}>
-                <Text style={styles.HeadingText}> Seperate each number with a comma(,)</Text>
+                <Text style={styles.HeadingText}> Select numbers from uploaded lists </Text>
             </View>
             <View  style={styles.container}>
                 

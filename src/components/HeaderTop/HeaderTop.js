@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, useWindowDimensions, TouchableOpacity} from 'react-native';
+import { Platform, View, Text, StyleSheet, Image, useWindowDimensions, TouchableOpacity} from 'react-native';
 import React, {useContext}  from 'react';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -16,6 +16,7 @@ const HeaderTop = () => {
     console.log('balance: ' +userBalance);
     
     return (
+    
         <View style={styles.header}>
             <View style={styles.row}>
                 <Image 
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
         width: hp('100%'),
         height: hp('33%'),
         backgroundColor: '#ff0000',
-        borderBottomLeftRadius: hp('40%'),
+        borderBottomLeftRadius:  Platform.OS === 'ios' ? hp('40%')  : hp('25%'),
         // overflow: 'hidden'
     },
     row: {

@@ -145,7 +145,7 @@ const VoiceScreenTwo = () => {
                 setEnableSms(0);
                 
                 
-                Alert.alert("Profile picture updated Successful");
+                Alert.alert(responseMessage);
             }
             if(responseJson.status === "302"){
                 logout();
